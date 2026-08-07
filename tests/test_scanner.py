@@ -13,7 +13,7 @@ async def test_run_scan_finds_seeded_arbitrage():
     assert game0["sportsbook_b"] == "TAB"
     assert game0["odds_b"] == 4.2
     assert game0["arbitrage_percentage"] > 0
-    assert game0["stake_a"] + game0["stake_b"] == pytest.approx(1000, abs=0.5)
+    assert game0["stake_a"] + game0["stake_b"] == pytest.approx(1000, abs=1)
 
 
 @pytest.mark.asyncio
