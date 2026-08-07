@@ -8,10 +8,10 @@ def calculate_stakes(bankroll: float, odds_a: float, odds_b: float) -> dict:
     implied_b = 1 / odds_b
     total_implied = implied_a + implied_b
 
-    # Round stakes to whole dollars for a clean bet-slip number, then derive
-    # return/profit from the *rounded* stakes so they still reconcile.
-    stake_a = round(bankroll * implied_a / total_implied)
-    stake_b = round(bankroll * implied_b / total_implied)
+    # Round stakes to the nearest $10 for a clean bet-slip number, then
+    # derive return/profit from the *rounded* stakes so they still reconcile.
+    stake_a = round(bankroll * implied_a / total_implied / 10) * 10
+    stake_b = round(bankroll * implied_b / total_implied / 10) * 10
     guaranteed_return = round(min(stake_a * odds_a, stake_b * odds_b), 2)
     profit = round(guaranteed_return - bankroll, 2)
 
