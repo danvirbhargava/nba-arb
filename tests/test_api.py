@@ -33,3 +33,8 @@ def test_scan_then_arbitrage_and_games():
 def test_scan_defaults_bankroll_when_not_provided():
     response = client.post("/scan")
     assert response.status_code == 200
+
+
+def test_scan_rejects_non_positive_bankroll():
+    response = client.post("/scan", params={"bankroll": 0})
+    assert response.status_code == 422

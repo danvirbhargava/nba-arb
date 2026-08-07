@@ -40,12 +40,13 @@ function App() {
             type="number"
             className="mt-1 w-32 rounded border border-gray-300 p-2"
             value={bankroll}
+            min={1}
             onChange={(e) => setBankroll(Number(e.target.value))}
           />
         </label>
 
         <label className="flex flex-col text-sm">
-          Min profit %
+          Min ROI %
           <input
             type="number"
             className="mt-1 w-32 rounded border border-gray-300 p-2"

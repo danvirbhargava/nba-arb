@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -8,7 +8,9 @@ app = FastAPI(title="NBA Arbitrage Scanner")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    # ponytail: regex over exact origin so a Vite port bump (5173 -> 5174) doesn't
+    # silently break local dev CORS
+    allow_origin_regex=r"http://localhost:\d+",
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -47,7 +49,7 @@ async def health() -> dict:
 
 
 @app.post("/scan", response_model=list[OpportunityOut])
-async def scan(bankroll: float = 1000.0) -> list[dict]:
+async def scan(bankroll: float = Query(1000.0, gt=0)) -> list[dict]:
     return await scanner.run_scan(bankroll)
 
 

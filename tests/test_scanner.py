@@ -25,7 +25,7 @@ async def test_run_scan_updates_latest_state():
 
 
 @pytest.mark.asyncio
-async def test_unmatched_team_names_are_dropped_not_crashed():
+async def test_repeated_scans_are_stable():
     # Sanity: scanning twice in a row doesn't error even though random
     # games (1-4) rarely produce arbitrage.
     result_1 = await scanner.run_scan(bankroll=1000)

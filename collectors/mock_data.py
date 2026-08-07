@@ -34,5 +34,7 @@ SEEDED_ARB_ODDS = {
 def random_odds_pair(seed: int) -> tuple[float, float]:
     rng = random.Random(seed)
     home = round(rng.uniform(1.5, 4.0), 2)
-    away = round(rng.uniform(1.5, 4.0), 2)
+    # ponytail: 5% book margin, so a single book's own two prices don't
+    # spuriously arb against each other; cross-book comparison still can.
+    away = round(1 / (1.05 - 1 / home), 2)
     return home, away

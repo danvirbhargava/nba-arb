@@ -11,11 +11,3 @@ export async function scanNow(bankroll: number): Promise<Opportunity[]> {
   }
   return response.json();
 }
-
-export async function fetchArbitrage(): Promise<Opportunity[]> {
-  const response = await fetch(`${BASE_URL}/arbitrage`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch arbitrage: ${response.status}`);
-  }
-  return response.json();
-}
