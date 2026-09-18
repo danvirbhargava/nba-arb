@@ -1,8 +1,20 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from api.main import app
+from arbitrage import scanner
+from collectors.mock_tab import MockTabCollector
+from tests.conftest import FakeSportsbetCollector
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def mock_collectors(monkeypatch):
+    # API tests exercise routing/response shape against deterministic mock
+    # odds; the real SportsbetCollector's live-fetch behavior is covered
+    # separately in tests/test_sportsbet_collector.py.
+    monkeypatch.setattr(scanner, "COLLECTORS", [FakeSportsbetCollector(), MockTabCollector()])
 
 
 def test_health():

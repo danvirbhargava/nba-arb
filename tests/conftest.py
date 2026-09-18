@@ -2,7 +2,10 @@ from collectors.base import SportsbookCollector
 from collectors.mock_data import GAMES, SEEDED_ARB_ODDS, random_odds_pair
 
 
-class MockSportsbetCollector(SportsbookCollector):
+class FakeSportsbetCollector(SportsbookCollector):
+    """Deterministic stand-in for the real (live-fetch) SportsbetCollector,
+    used by scanner/API tests that need stable odds rather than a network call."""
+
     sportsbook_name = "Sportsbet"
 
     async def fetch_odds(self) -> list[dict]:

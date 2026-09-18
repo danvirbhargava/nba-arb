@@ -1,10 +1,12 @@
-from collectors.mock_sportsbet import MockSportsbetCollector
+import asyncio
+
+from collectors.sportsbet import SportsbetCollector
 from collectors.mock_tab import MockTabCollector
 from matcher.matcher import normalize_team_name
 from arbitrage.calculator import calculate_arbitrage
 from arbitrage.stakes import calculate_stakes
 
-COLLECTORS = [MockSportsbetCollector(), MockTabCollector()]
+COLLECTORS = [SportsbetCollector(), MockTabCollector()]
 
 _latest_odds: list[dict] = []
 _latest_opportunities: list[dict] = []
@@ -14,9 +16,8 @@ _latest_games: list[str] = []
 async def run_scan(bankroll: float) -> list[dict]:
     global _latest_odds, _latest_opportunities, _latest_games
 
-    all_odds = []
-    for collector in COLLECTORS:
-        all_odds.extend(await collector.fetch_odds())
+    odds_lists = await asyncio.gather(*(c.fetch_odds() for c in COLLECTORS))
+    all_odds = [o for odds in odds_lists for o in odds]
 
     normalized = []
     for o in all_odds:

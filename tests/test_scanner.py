@@ -1,6 +1,16 @@
 import pytest
 
 from arbitrage import scanner
+from collectors.mock_tab import MockTabCollector
+from tests.conftest import FakeSportsbetCollector
+
+
+@pytest.fixture(autouse=True)
+def mock_collectors(monkeypatch):
+    # Scanner logic is tested against deterministic mock odds; the real
+    # SportsbetCollector's live-fetch behavior is covered separately in
+    # tests/test_sportsbet_collector.py.
+    monkeypatch.setattr(scanner, "COLLECTORS", [FakeSportsbetCollector(), MockTabCollector()])
 
 
 @pytest.mark.asyncio
